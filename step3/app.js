@@ -68,15 +68,13 @@
 
   // View ******************************************************
   icecreamModel.on('fetch', function(evt, icecreamModel) {
-    $(function() {
-      var $els = $('#icecreams');
-      $.each(icecreamModel.list, function(i, icecream) {
-        $els.append(
-          $('<li />')
-          .append($('<input type="checkbox" />').attr('name', icecream.id))
-          .append($('<span />').text(icecream.name))
-        );
-      });
+    var $els = $('#icecreams');
+    $.each(icecreamModel.list, function(i, icecream) {
+      $els.append(
+        $('<li />')
+        .append($('<input type="checkbox" />').attr('name', icecream.id))
+        .append($('<span />').text(icecream.name))
+      );
     });
   });
   function updateViews(evt, selectionModel) {
@@ -104,6 +102,7 @@
   var controller = Nanigashi.Controllable({
     init : function() {
       $('#icecreams').on('click', 'li', $.proxy(this.onclickIcecream, this));
+      this.control(icecreamModel, 'fetch');
     },
     onclickIcecream : function(evt) {
       var $checkbox = $(evt.currentTarget).find('input[type="checkbox"]');

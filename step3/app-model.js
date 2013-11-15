@@ -23,13 +23,17 @@ function Observable(modelName, o) {
   return o;
 }
 
-var xhr = new XMLHttpRequest();
-xhr.open('GET', 'icecream.json', false);
-xhr.send();
 
 // Model Impl ************************************************
 var icecreamModel = Observable('icecreamModel', {
-  list : JSON.parse(xhr.responseText),
+  list : [],
+  fetch : function() {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', 'icecream.json', false);
+    xhr.send();
+    this.list = JSON.parse(xhr.responseText);
+    this.trigger('fetch', this);
+  },
   getAll : function() {
     return this.list;
   },
@@ -63,5 +67,4 @@ selectionModel = Observable('selectionModel', {
     return this.list;
   }
 });
-icecreamModel.trigger('fetch', icecreamModel);
 // Model Impl ************************************************
